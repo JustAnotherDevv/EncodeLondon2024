@@ -1,3 +1,6 @@
 [submodule "foundry_evm/lib/forge-std"]
 	path = foundry_evm/lib/forge-std
 	url = https://github.com/foundry-rs/forge-std
+[submodule "contracts/foundry_evm/lib/openzeppelin-contracts"]
+	path = contracts/foundry_evm/lib/openzeppelin-contracts
+	url = https://github.com/OpenZeppelin/openzeppelin-contracts

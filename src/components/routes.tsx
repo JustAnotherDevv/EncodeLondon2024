@@ -11,6 +11,8 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
+import { useLocation } from "react-router-dom";
+import InsuranceDashboard from "./insurance-dashboard"; // Import the insurance dashboard we created
 
 const initialFiles: FileType[] = [
   {
@@ -22,59 +24,15 @@ const initialFiles: FileType[] = [
 ];
 
 export function Routes() {
+  const location = useLocation();
   const [files, setFiles] = useState<FileType[]>(initialFiles);
   const [activeFile, setActiveFile] = useState(initialFiles[0].id);
   const [activeTab, setActiveTab] = useState<"files" | "security">("files");
   const [securityIssues, setSecurityIssues] = useState<SecurityIssue[]>([]);
 
   const analyzeCode = (code: string, fileId: string) => {
-    const newIssues: SecurityIssue[] = [];
-    const file = files.find((f) => f.id === fileId);
-
-    if (!file) return;
-
-    const lines = code.split("\n");
-    lines.forEach((line, index) => {
-      if (line.includes("eval(")) {
-        newIssues.push({
-          id: nanoid(),
-          severity: "high",
-          message:
-            "Dangerous eval() detected - potential code injection vulnerability",
-          line: index + 1,
-          file: file.name,
-        });
-      }
-      if (line.includes("innerHTML")) {
-        newIssues.push({
-          id: nanoid(),
-          severity: "medium",
-          message: "Use of innerHTML - potential XSS vulnerability",
-          line: index + 1,
-          file: file.name,
-        });
-      }
-      if (line.match(/password.*=.*['"].*['"`]/)) {
-        newIssues.push({
-          id: nanoid(),
-          severity: "high",
-          message: "Hardcoded password detected",
-          line: index + 1,
-          file: file.name,
-        });
-      }
-      if (line.includes("http://")) {
-        newIssues.push({
-          id: nanoid(),
-          severity: "low",
-          message: "Insecure HTTP protocol used - consider HTTPS",
-          line: index + 1,
-          file: file.name,
-        });
-      }
-    });
-
-    setSecurityIssues(newIssues);
+    // todo
+    // setSecurityIssues(newIssues);
   };
 
   const handleFileChange = (fileId: string, content: string) => {
@@ -110,6 +68,17 @@ export function Routes() {
     }
   };
 
+  // Render insurance dashboard if the current route is /insurance
+  if (location.pathname === "/insurance") {
+    return (
+      <div className="flex h-screen flex-col bg-background">
+        <Header />
+        <InsuranceDashboard />
+      </div>
+    );
+  }
+
+  // Otherwise render the code editor interface
   return (
     <div className="flex h-screen flex-col bg-background">
       <Header />
