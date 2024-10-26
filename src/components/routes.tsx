@@ -12,13 +12,15 @@ import {
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
 import { useLocation } from "react-router-dom";
-import InsuranceDashboard from "./insurance-dashboard"; // Import the insurance dashboard we created
+import InsuranceDashboard from "./insurance-dashboard";
 
 const initialFiles: FileType[] = [
   {
     id: "1",
-    name: "index.js",
-    content: "// ToDo",
+    name: "contract.cairo",
+    content: `
+let my_str = "hello";
+    `,
     language: "rust",
   },
 ];
@@ -29,6 +31,7 @@ export function Routes() {
   const [activeFile, setActiveFile] = useState(initialFiles[0].id);
   const [activeTab, setActiveTab] = useState<"files" | "security">("files");
   const [securityIssues, setSecurityIssues] = useState<SecurityIssue[]>([]);
+  const [fileAmount, setFileAmount] = useState<number>(1);
 
   const analyzeCode = (code: string, fileId: string) => {
     // todo
@@ -43,12 +46,14 @@ export function Routes() {
   const handleNewFile = () => {
     const newFile: FileType = {
       id: nanoid(),
-      name: `untitled-${files.length + 1}.js`,
+      // name: `untitled-${files.length + 1}.js`,
+      name: `contract-${fileAmount}.cairo`,
       content: "",
-      language: "javascript",
+      language: "rust",
     };
     setFiles([...files, newFile]);
     setActiveFile(newFile.id);
+    setFileAmount(fileAmount + 1);
   };
 
   const handleFileClose = (fileId: string) => {
@@ -68,7 +73,6 @@ export function Routes() {
     }
   };
 
-  // Render insurance dashboard if the current route is /insurance
   if (location.pathname === "/insurance") {
     return (
       <div className="flex h-screen flex-col bg-background">
@@ -78,7 +82,6 @@ export function Routes() {
     );
   }
 
-  // Otherwise render the code editor interface
   return (
     <div className="flex h-screen flex-col bg-background">
       <Header />
