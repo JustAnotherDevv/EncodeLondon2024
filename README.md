@@ -1,16 +1,16 @@
-# Encode London 2024 Project
-
-ToDo
+# Securo - Encode London 2024 Project
 
 # Abstract
+
+Securo - Security Aggregator provides most needed functionalities for coders developing their smart contracts in Cairo for Starknet and for users interacting with defi protocols on EVM networks like Base.
 
 ## Deployment
 
 **Base Sepolia**
 
-- `MockERC20` - ``
-- `MockVault` - ``
-- `VulnerableVault` - ``
+- `MockERC20` - `0x5aAdFB43eF8dAF45DD80F4676345b7676f1D70e3`
+- `MockVault` - `0xf13D09eD3cbdD1C930d4de74808de1f33B6b3D4f`
+- `VulnerableVault` - `0x5c4a3C2CD1ffE6aAfDF62b64bb3E620C696c832E`
 
 # Features
 
@@ -51,13 +51,45 @@ end
 
 ## For Users - Insurance
 
-ToDo
+```mermaid
+sequenceDiagram
+    participant User as User/DApp
+    participant Backend as Backend API
+    participant Flare as Flare API
+    participant Chain as Blockchain
+
+    User->>Backend: Submit suspicious tx hash
+    activate Backend
+    Backend->>Flare: Submit hash for verification
+    activate Flare
+    Flare-->>Backend: Return verification result
+    deactivate Flare
+    Backend-->>User: Return verification data
+    deactivate Backend
+
+    User->>Chain: Submit verification transaction
+    activate Chain
+    Chain-->>User: Return decoded logs
+    deactivate Chain
+
+    note over User,Chain: User verifies Flare API output on-chain
+```
 
 # Bounties
 
-# Setup
+- Compass Labs
 
-## Project Setup
+- Base
+
+- Flare
+
+- Nethermind
+
+- ICP
+
+- Blocksense
+
+# Setup
 
 ### Backend
 
@@ -68,6 +100,8 @@ ToDo
 - fill out env variables with `COMPILE_DIR` as relative path based on backend directory and `FUZZING_DIR` as relative path based on compile directory
 
 - install dependencies with `npm i`
+
+- run files with `node <file_name.js>`
 
 ### Frontend
 
@@ -85,8 +119,10 @@ ToDo
 
 - install all required tools to work with EVM networks - Foundry, VS code extensions etc
 
+- execute `export PRIVATE_KEY=<YOUR_PRIVATE_KEY>`
+
 - execute `forge install OpenZeppelin/openzeppelin-contracts --no-commit` inside `contracts/foundry_evm` directory
 
 - run evm tests using `forge test -vv`
 
-- deploy evm contract to Base Sepolia or your chosen network
+- deploy Solidity contractc to Base Sepolia or your chosen EVM network
