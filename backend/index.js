@@ -4,6 +4,8 @@ const path = require("path");
 const { execSync } = require("child_process");
 const multer = require("multer");
 const cors = require("cors");
+const { prepareEVMTransactionVerification } = require("./flare");
+
 require("dotenv").config();
 
 const app = express();
@@ -257,6 +259,66 @@ app.post("/compile", async (req, res) => {
       success: false,
       error: error.message,
     });
+  }
+});
+
+app.post("/verify-transaction", async (req, res) => {
+  try {
+    // console.log(req.body);
+    // const { validateApiKey, validateRequestBody } = req.body;
+    const apiKey = process.env.FLARE_API_KEY; //req.headers["x-api-key"];
+    const {
+      transactionHash,
+      requiredConfirmations = "1",
+      provideInput = true,
+      listEvents = true,
+      logIndices = [],
+    } = req.body;
+
+    const requestBody = {
+      transactionHash,
+      requiredConfirmations,
+      provideInput,
+      listEvents,
+      logIndices,
+    };
+
+    const verificationBody = {
+      attestationType:
+        "0x45564d5472616e73616374696f6e000000000000000000000000000000000000",
+      // "0x45564d5472616e73616374696f6e000000000000000000000000000000000000",
+      sourceId:
+        "0x7465737445544800000000000000000000000000000000000000000000000000",
+      // "0x14a3400000000000000000000000000000000000000000000000000000000000",
+      requestBody: requestBody,
+    };
+
+    console.log(`verifBody `, verificationBody);
+
+    const verificationResult = await prepareEVMTransactionVerification({
+      apiKey,
+      //   requestBody,
+      verificationBody,
+      baseURL: process.env.VERIFIER_BASE_URL,
+    });
+
+    res.json(verificationResult);
+  } catch (error) {
+    console.error("Verification request failed:", error);
+
+    if (error.response) {
+      res.status(error.response.status).json({
+        error: error.response.data || "Verification service error",
+      });
+    } else if (error.request) {
+      res.status(503).json({
+        error: "Verification service unavailable",
+      });
+    } else {
+      res.status(500).json({
+        error: "Internal server error",
+      });
+    }
   }
 });
 

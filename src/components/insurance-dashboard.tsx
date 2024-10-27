@@ -21,6 +21,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { ShieldCheck, AlertTriangle, ArrowRight } from "lucide-react";
+import { prepareEVMTransactionVerification } from "@/flare";
 
 const InsuranceDashboard = () => {
   const [activeInsurance, setActiveInsurance] = useState([
@@ -40,6 +41,44 @@ const InsuranceDashboard = () => {
     // { name: "Compound", coverage: "Up to 15,000 USDC" },
     { name: "Uniswap", coverage: "Up to 5,000 USDC" },
   ];
+
+  const verifyTransaction = async (transactionHash: string) => {
+    // const requestBody: RequestBody = {
+    //   transactionHash,
+    //   requiredConfirmations: "1",
+    //   provideInput: true,
+    //   listEvents: true,
+    //   logIndices: [],
+    // };
+
+    try {
+      const result = await fetch(
+        `${import.meta.env.VITE_API_ENDPOINT}/verify-transaction`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            //   'X-API-KEY': 'your-api-key'
+          },
+          body: JSON.stringify({
+            transactionHash: transactionHash,
+            requiredConfirmations: "123",
+            provideInput: true,
+            listEvents: true,
+            logIndices: ["123"],
+          }),
+        }
+      );
+      //   await prepareEVMTransactionVerification({
+      //     apiKey,
+      //     requestBody,
+      //   });
+      console.log(result);
+      return result;
+    } catch (error) {
+      throw error;
+    }
+  };
 
   return (
     <div className="container mx-auto p-6 max-w-4xl">
@@ -192,7 +231,16 @@ const InsuranceDashboard = () => {
               </div>
             </CardContent>
             <CardFooter>
-              <Button className="w-full">Submit Claim</Button>
+              <Button
+                className="w-full"
+                onClick={() =>
+                  verifyTransaction(
+                    `0x6021b7bf7dc89bd192893e4c6b1decba735584a800dc4614b8d49cf403095010`
+                  )
+                }
+              >
+                Submit Claim
+              </Button>
               {/* <Button className="w-full">Enter Claim</Button> */}
             </CardFooter>
           </Card>
