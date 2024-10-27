@@ -16,6 +16,7 @@ ToDo
 
 ## For Developers - Security Scanner
 
+```mermaid
 graph TD
 subgraph Frontend[Web Application]
 A[File Input] -->|Create/Edit| B[Code Editor]
@@ -46,6 +47,7 @@ end
     style Backend fill:#f3e5f5,stroke:#4a148c
     style Output fill:#e8f5e9,stroke:#1b5e20
     style AI_Analysis fill:#fff3e0,stroke:#e65100
+```
 
 ## For Users - Insurance
 
