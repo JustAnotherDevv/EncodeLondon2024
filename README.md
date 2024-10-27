@@ -4,6 +4,8 @@
 
 Securo - Security Aggregator provides most needed functionalities for coders developing their smart contracts in Cairo for Starknet and for users interacting with defi protocols on EVM networks like Base.
 
+![fuzzer](./s_landing.png)
+
 ## Deployment
 
 **Base Sepolia**
@@ -15,6 +17,8 @@ Securo - Security Aggregator provides most needed functionalities for coders dev
 # Features
 
 ## For Developers - Security Scanner
+
+![fuzzer](./s_fuzzer.png)
 
 ```mermaid
 graph TD
@@ -50,6 +54,8 @@ end
 ```
 
 ## For Users - Insurance
+
+![fuzzer](./s_insurance.png)
 
 ```mermaid
 sequenceDiagram
