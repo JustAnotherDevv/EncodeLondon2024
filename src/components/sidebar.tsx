@@ -1,9 +1,9 @@
-import { FileCode, Shield } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { FileCode, Shield } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface SidebarProps {
-  activeTab: 'files' | 'security';
-  onTabChange: (tab: 'files' | 'security') => void;
+  activeTab: "files" | "security";
+  onTabChange: (tab: "files" | "security") => void;
 }
 
 export function Sidebar({ activeTab, onTabChange }: SidebarProps) {
@@ -14,20 +14,20 @@ export function Sidebar({ activeTab, onTabChange }: SidebarProps) {
           role="tab"
           tabIndex={0}
           className={cn(
-            'flex cursor-pointer items-center space-x-2 rounded-lg px-3 py-2 text-sm hover:bg-muted',
-            activeTab === 'files' && 'bg-muted text-foreground'
+            "flex cursor-pointer items-center space-x-2 rounded-lg px-3 py-2 text-sm hover:bg-muted",
+            activeTab === "files" && "bg-muted text-foreground"
           )}
-          onClick={() => onTabChange('files')}
+          onClick={() => onTabChange("files")}
           onKeyDown={(e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
-              onTabChange('files');
+            if (e.key === "Enter" || e.key === " ") {
+              onTabChange("files");
             }
           }}
         >
           <FileCode className="h-4 w-4" />
           <span>Files</span>
         </div>
-        <div
+        {/* <div
           role="tab"
           tabIndex={0}
           className={cn(
@@ -43,7 +43,7 @@ export function Sidebar({ activeTab, onTabChange }: SidebarProps) {
         >
           <Shield className="h-4 w-4" />
           <span>Security</span>
-        </div>
+        </div> */}
       </nav>
     </div>
   );
